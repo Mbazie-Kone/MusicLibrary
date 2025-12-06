@@ -30,7 +30,7 @@ namespace MusicLibrary.Infrastructure.DbContexts
                     .HasMaxLength(255);
                 entity.Property(e => e.FileType)
                     .HasMaxLength(50);
-                entity.Property(e => e.FileSize).HasMaxLength(100);
+                entity.Property(e => e.FileSize);
                 entity.Property(e => e.UploadedAt)
                     .HasDefaultValueSql("GETDATE()"); // Default value
             });
