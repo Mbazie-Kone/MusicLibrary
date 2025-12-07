@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MusicLibrary.Domain.Entities;
 
 namespace MusicLibrary.Infrastructure.Repositories
 {
     public interface IMediaRepository
     {
+        Task Addsync(MediaItem item);
     }
 }
