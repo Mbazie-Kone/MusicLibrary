@@ -1,4 +1,4 @@
-﻿using MusicLibrary.Domain.Enums;
+using MusicLibrary.Domain.Enums;
 
 namespace MusicLibrary.Domain.Entities
 {
