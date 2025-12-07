@@ -1,5 +1,7 @@
 using MusicLibrary.Infrastructure.DbContexts;
 using Microsoft.EntityFrameworkCore;
+using MusicLibrary.Infrastructure.Repositories;
+using MusicLibrary.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +13,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<IMediaRepository, MediaRepository>();
+builder.Services.AddScoped<IFileStorageService, FileStorageService>();
 
 var app = builder.Build();
 
