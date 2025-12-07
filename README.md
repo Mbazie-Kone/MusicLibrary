@@ -59,7 +59,7 @@ The goal is to evolve into a complete media platform for uploading, cataloging, 
 > *(Screenshots will be added once the frontend is developed)*
 
 ```
-
+```
 ## 📡 Current Endpoints (Implemented / In Progress)
 
 # ✔️ Implemented
