@@ -1,5 +1,6 @@
 ﻿using MusicLibrary.Domain.Entities;
 using MusicLibrary.Infrastructure.DbContexts;
+using Microsoft.EntityFrameworkCore;
 
 namespace MusicLibrary.Infrastructure.Repositories
 {
@@ -16,6 +17,11 @@ namespace MusicLibrary.Infrastructure.Repositories
         {
             _context.MediaItems.Add(item);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<MediaItem>> GetAllAsync()
+        {
+            return await _context.MediaItems.ToListAsync();
         }
     }
 }

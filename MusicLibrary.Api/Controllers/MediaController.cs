@@ -44,7 +44,22 @@ namespace MusicLibrary.Api.Controllers
                 message = "File uploaded successfully",
                 file = mediaItem
             });
-        } 
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var items = await _mediaRepository.GetAllAsync();
+            var result = items.Select(i => new
+            {
+                i.Id,
+                i.Title,
+                i.FileType,
+                i.FileSize,
+                i.UploadedAt
+            });
+            return Ok(result);
+        }
        
     }
 }
