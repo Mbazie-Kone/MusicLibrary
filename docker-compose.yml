@@ -14,18 +14,41 @@ services:
     networks:
       - musicnetwork    
     
-  musiclibrary-api:
+  api:
     build:
       context: .
       dockerfile: MusicLibrary.Api/Dockerfile
     container_name: musiclibrary-api
     ports:
       - "5000:5000"
+      - "5001:5001"
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       ConnectionStrings__DefaultConnection: "Server=db;Database=MusicLibraryDb;User Id=sa;Password=12345678aA!;TrustServerCertificate=True;"
+      Minio__Endpoint: "minio:9000"
+      Minio__AccessKey: "minioadmin"
+      Minio__SecretKey: "minioadmin"
+      Minio__BucketName: "media"
     depends_on:
       - db
+      - minio
+    networks:
+      - musicnetwork
+  
+  mediaprocessor:
+    build:
+      context: .
+      dockerfile: MediaProcessor/Dockerfile
+    depends_on:
+      - db
+      - minio
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ConnectionStrings__DefaultConnection: "Server=db;Database=MusicLibraryDb;User Id=sa;Password=12345678aA!;TrustServerCertificate=True;"
+      Minio__Endpoint: "minio:9000"
+      Minio__AccessKey: "minioadmin"
+      Minio__SecretKey: "minioadmin"
+      Minio__BucketName: "media"
     networks:
       - musicnetwork
   
@@ -53,6 +76,18 @@ services:
       - dbdata:/var/opt/mssql
     networks:
       - musicnetwork
+      
+  frontend:
+    build:
+      context: ./frontend/music-library-ui
+      dockerfile: Dockerfile
+    container_name: musiclibrary-frontend
+    ports:
+      - "4200:80"
+    depends_on:
+      - api
+    networks:
+      - musicnetwork
 
 volumes:
   dbdata:
@@ -60,3 +95,4 @@ volumes:
   
 networks:
   musicnetwork:
+    driver: bridge
