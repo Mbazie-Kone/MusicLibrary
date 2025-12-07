@@ -24,5 +24,7 @@ COPY --from=build /app/publish .
 EXPOSE 5000
 EXPOSE 5001
 
+ENV ASPNETCORE_URLS=http://+:5000
+
 # Set entrypoint
 ENTRYPOINT ["dotnet", "MusicLibrary.Api.dll"]

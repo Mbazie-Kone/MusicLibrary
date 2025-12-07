@@ -11,7 +11,7 @@ namespace MusicLibrary.Infrastructure.DbContexts
 
             // Connection string USED ONLY for dotnet ef commands
             var connectionString =
-                "Server=localhost,1433;Database=MusicLibraryDb;User Id=sa;Password=12345678aA!;TrustServerCertificate=True";
+                "Server=localhost,1433;Database=MusicLibraryDb;User Id=sa;Password=12345678aA!;TrustServerCertificate=True;";
 
             optionsBuilder.UseSqlServer(connectionString);
 
