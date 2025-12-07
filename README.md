@@ -10,7 +10,7 @@
 ---
 
 ## 📖 Project Overview
-The **Music Library / Media Manager** is a modern web application designed to help users **organize, manage, and explore their music collection** efficiently. 
+The **Music Library / Media Manager** is a modern web application designed to help users **organize, manage, and explore their music collection** efficiently.
 
 The project currently includes a fully structured **.NET 8 backend** following a **clean and scalable architecture** (Domain, Application, Infrastructure, Api), and a Dockerized SQL Server environment for persistent storage.  
 The Angular frontend is **planned but not yet started**.
@@ -58,21 +58,6 @@ The goal is to evolve into a complete media platform for uploading, cataloging, 
 
 > *(Screenshots will be added once the frontend is developed)*
 
----
-
-## 🏗️ Architecture Diagram
-
-```mermaid
-graph TD;
-    A[Frontend: Angular (Planned)] -->|HTTP Requests| B[Backend: .NET 8 Web API]
-    B -->|Business Logic| C[Application Layer]
-    C -->|Domain Models| D[Domain Layer]
-    C -->|Repositories| E[Infrastructure Layer]
-    E -->|EF Core| F[SQL Server Database]
-    E -->|File Saving| G[Local Storage]
-    G -->|Future| H[MinIO]
-    I[Docker] --> F
-    I --> B
 ```
 
 ## 📡 Current Endpoints (Implemented / In Progress)
@@ -86,19 +71,19 @@ Used to verify that the API is running correctly.
 
 POST /api/media/upload
 
-Saves the uploaded file physically.
+- Saves the uploaded file physically.
 
-Saves metadata in the database.
+- Saves metadata in the database.
 
-Uses MediaItem entity & repository.
+- Uses MediaItem entity & repository.
 
 ## ⏳ Planned
 
-GET /api/media – list all uploaded items
+- GET /api/media – list all uploaded items
 
-DELETE /api/media/{id} – remove media
+- DELETE /api/media/{id} – remove media
 
-GET /api/media/{id} – fetch details
+- GET /api/media/{id} – fetch details
 
 ## ⚡ Installation & Setup
 
@@ -109,11 +94,12 @@ GET /api/media/{id} – fetch details
 
 API available at:
 
-HTTP → http://localhost:5000
+- HTTP → http://localhost:5000
 
-HTTPS → https://localhost:7000
+- HTTPS → https://localhost:7000
 
 ## 🚀 Future Improvements
+
 - Complete media upload workflow
 
 - Implement media listing
@@ -129,15 +115,13 @@ HTTPS → https://localhost:7000
 - Improve logging and validation
 
 ## 🤝 Contributing
-Contributions are welcome! Please follow the standard Git workflow:
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
 
+I follow GitFlow:
 
+- main → production
 
+- develop → active development
 
+- feature/* → new features
 
-
-
+Pull requests are welcome.
