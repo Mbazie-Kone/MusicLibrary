@@ -105,11 +105,8 @@ namespace MusicLibrary.Api.Controllers
             }
             catch (Exception)
             {
-                // In a real app, we might want to log this but still proceed to delete metadata, 
-                // or fail. For now, we proceed to ensure DB consistency or fail? 
-                // Usually we want DB to reflect reality. If file is gone, DB should be gone. 
-                // If file delete fails, maybe we shouldn't delete DB record?
-                // Let's assume strict consistency: if file delete fails, abort.
+                // If file deletion fails, abort the operation to maintain consistency
+                // between MinIO storage and database records
                 throw; 
             }
 
