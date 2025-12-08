@@ -19,7 +19,7 @@ namespace MusicLibrary.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<MediaItem>> GetAllAsync()
+        public async Task<List<MediaItem>> GetAllAsync()
         {
             return await _context.MediaItems.ToListAsync();
         }
