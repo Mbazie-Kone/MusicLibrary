@@ -63,6 +63,18 @@ services:
       ASPNETCORE_ENVIRONMENT: "Development"
     networks:
       - musicnetwork
+  
+  mediaprocessor:
+    build:
+      context: .
+      dockerfile: MediaProcessor/Dockerfile
+    depends_on:
+      - db
+      - minio
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+    networks:
+      - musicnetwork
 
   db:
     image: mcr.microsoft.com/mssql/server:2022-latest
