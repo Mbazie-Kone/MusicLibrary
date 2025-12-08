@@ -1,4 +1,5 @@
 <Solution>
+  <Project Path="MediaProcessor/MediaProcessor.csproj" />
   <Project Path="MusicLibrary.Api/MusicLibrary.Api.csproj" />
   <Project Path="MusicLibrary.Application/MusicLibrary.Application.csproj" />
   <Project Path="MusicLibrary.Domain/MusicLibrary.Domain.csproj" />
