@@ -9,5 +9,6 @@ namespace MusicLibrary.Infrastructure.Repositories
         Task<List<MediaItem>> GetAllAsync();
         Task<MediaItem?> GetByIdAsync(int id);
         Task UpdateAsync(MediaItem item);
+
     }
 }

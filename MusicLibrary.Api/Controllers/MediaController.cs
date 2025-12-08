@@ -10,13 +10,11 @@ namespace MusicLibrary.Api.Controllers
     [Route("api/[controller]")]
     public class MediaController : ControllerBase
     {
-        private readonly IFileStorageService _fileStorage;
         private readonly IMediaRepository _mediaRepository;
         private readonly IMinioService _minioService;
 
-        public MediaController(IFileStorageService fileStorage, IMediaRepository mediaRepository, IMinioService minioService)
+        public MediaController(IMediaRepository mediaRepository, IMinioService minioService)
         {
-            _fileStorage = fileStorage;
             _mediaRepository = mediaRepository;
             _minioService = minioService;
         }
@@ -80,6 +78,8 @@ namespace MusicLibrary.Api.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateMediaItemRequest request)
         {
+            if (request == null)
+                return BadRequest("Invalid request.");
 
             var item = await _mediaRepository.GetByIdAsync(id);
             if (item == null)

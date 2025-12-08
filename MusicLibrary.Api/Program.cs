@@ -15,7 +15,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IMediaRepository, MediaRepository>();
-builder.Services.AddScoped<IFileStorageService, FileStorageService>();
 
 // Minio Service Registration
 builder.Services.AddSingleton<IMinioService, MinioService>();
