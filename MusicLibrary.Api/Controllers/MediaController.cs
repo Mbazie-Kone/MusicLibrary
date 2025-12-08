@@ -11,11 +11,13 @@ namespace MusicLibrary.Api.Controllers
     {
         private readonly IFileStorageService _fileStorage;
         private readonly IMediaRepository _mediaRepository;
+        private readonly IMinioService _minioService;
 
-        public MediaController(IFileStorageService fileStorage, IMediaRepository mediaRepository)
+        public MediaController(IFileStorageService fileStorage, IMediaRepository mediaRepository, IMinioService minioService)
         {
             _fileStorage = fileStorage;
             _mediaRepository = mediaRepository;
+            _minioService = minioService;
         }
 
         [HttpPost("upload")]
@@ -25,7 +27,7 @@ namespace MusicLibrary.Api.Controllers
                 return BadRequest("No file uploaded.");
 
             // Save the file physically
-            string storedFileName = await _fileStorage.SaveFileAsync(file);
+            string storedFileName = await _minioService.UploadFileAsync(file);
 
             // Create the MediaItem entity
             var mediaItem = new MediaItem

@@ -17,6 +17,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IMediaRepository, MediaRepository>();
 builder.Services.AddScoped<IFileStorageService, FileStorageService>();
 
+// Minio Service Registration
+builder.Services.AddSingleton<IMinioService, MinioService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
