@@ -37,14 +37,10 @@ namespace MusicLibrary.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task DeleteAsync(MediaItem item)
         {
-            var item = await _context.MediaItems.FindAsync(id);
-            if (item != null)
-            {
-                _context.MediaItems.Remove(item);
-                await _context.SaveChangesAsync();
-            }
+            _context.MediaItems.Remove(item);
+            await _context.SaveChangesAsync();
         }
     }
 }
