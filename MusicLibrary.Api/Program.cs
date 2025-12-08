@@ -30,6 +30,9 @@ builder.Services.Configure<FormOptions>(options =>
 // Minio Service Registration
 builder.Services.AddSingleton<IMinioService, MinioService>();
 
+// Minio Service Registration
+builder.Services.AddSingleton<IMinioService, MinioService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
