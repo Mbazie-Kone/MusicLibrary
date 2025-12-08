@@ -4,5 +4,6 @@
     {
         Task EnsureBucketExistsAsync();
         Task<string> UploadFileAsync(IFormFile file);
+        Task DeleteFileAsync(string fileName);
     }
 }

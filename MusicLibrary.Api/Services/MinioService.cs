@@ -56,5 +56,14 @@ namespace MusicLibrary.Api.Services
 
             return objectName;
         }
+
+        public async Task DeleteFileAsync(string fileName)
+        {
+            await _client.RemoveObjectAsync(
+                new RemoveObjectArgs()
+                    .WithBucket(_bucketName)
+                    .WithObject(fileName)
+            );
+        }
     }
 }

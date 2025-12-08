@@ -2,6 +2,7 @@
 using MusicLibrary.Api.Services;
 using MusicLibrary.Domain.Entities;
 using MusicLibrary.Infrastructure.Repositories;
+using MusicLibrary.Api.Dtos;
 
 namespace MusicLibrary.Api.Controllers
 {
@@ -64,6 +65,54 @@ namespace MusicLibrary.Api.Controllers
             });
 
             return Ok(result);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var item = await _mediaRepository.GetByIdAsync(id);
+            if (item == null)
+                return NotFound();
+
+            return Ok(item);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, [FromBody] UpdateMediaItemRequest request)
+        {
+
+            var item = await _mediaRepository.GetByIdAsync(id);
+            if (item == null)
+                return NotFound();
+
+            item.Title = request.Title;
+            
+            await _mediaRepository.UpdateAsync(item);
+            return Ok(item);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var item = await _mediaRepository.GetByIdAsync(id);
+            if (item == null)
+                return NotFound();
+
+            // Delete physical file (best effort, log if fails?)
+            try 
+            {
+                await _minioService.DeleteFileAsync(item.FileName);
+            }
+            catch (Exception)
+            {
+                // If file deletion fails, abort the operation to maintain consistency
+                // between MinIO storage and database records
+                throw; 
+            }
+
+            await _mediaRepository.DeleteAsync(id);
+
+            return NoContent();
         }
        
     }
