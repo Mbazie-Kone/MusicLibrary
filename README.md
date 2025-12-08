@@ -141,7 +141,7 @@ dotnet run
 
 ## 🤝 Contributing
 
-I follow GitFlow:
+We follow GitFlow:
 
 - `main` → production
 
