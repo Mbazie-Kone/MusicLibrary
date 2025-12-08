@@ -50,14 +50,17 @@ namespace MusicLibrary.Api.Controllers
         public async Task<IActionResult> GetAll()
         {
             var items = await _mediaRepository.GetAllAsync();
+
             var result = items.Select(i => new
             {
                 i.Id,
                 i.Title,
+                i.FileName,
                 i.FileType,
                 i.FileSize,
                 i.UploadedAt
             });
+
             return Ok(result);
         }
        

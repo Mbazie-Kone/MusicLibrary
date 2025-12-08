@@ -1,6 +1,3 @@
+@MusicLibrary.Api_HostAddress = http://localhost:5999
 
-@MusicLibrary.Api_HostAddress = http://localhost:5000
-
-###
-GET @MusicLibrary.Api_HostAddress/api/ping
 
