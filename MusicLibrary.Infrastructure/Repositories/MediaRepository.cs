@@ -28,7 +28,7 @@ namespace MusicLibrary.Infrastructure.Repositories
 
         public async Task<MediaItem?> GetByIdAsync(int id)
         {
-            return await _context.MediaItems.FindAsync(id);
+            return await _context.MediaItems.FirstOrDefaultAsync(m => m.Id == id);
         }
 
         public async Task UpdateAsync(MediaItem item)

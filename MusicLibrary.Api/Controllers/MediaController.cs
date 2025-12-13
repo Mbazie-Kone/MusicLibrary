@@ -21,6 +21,7 @@ namespace MusicLibrary.Api.Controllers
             _minioService = minioService;
         }
 
+        // POST: api/Media/upload
         [HttpPost("upload")]
         public async Task<IActionResult> Upload([FromForm] IFormFile file)
         {
@@ -49,6 +50,7 @@ namespace MusicLibrary.Api.Controllers
             });
         }
 
+        // GET: api/Media
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -67,6 +69,7 @@ namespace MusicLibrary.Api.Controllers
             return Ok(result);
         }
 
+        // GET: api/Media/{id}
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -77,6 +80,43 @@ namespace MusicLibrary.Api.Controllers
             return Ok(item);
         }
 
+        // GET: api/Media/{id}/stream
+        [HttpGet("{id:int}/stream")]
+        public async Task<IActionResult> Stream(int id, CancellationToken cancellationToken)
+        {
+            // 400 -> invalid id
+            if (id <= 0)
+                return BadRequest("Invalid media ID.");
+
+            // 404 -> not found
+            var media = await _mediaRepository.GetByIdAsync(id);
+            if (media == null)
+                return NotFound();
+
+            try
+            {
+                var (contentType, size) = await _minioService.GetObjectInfoAsync(media.FileName);
+
+                Response.Headers.Add("Accept-Ranges", "bytes");
+
+                if (size.HasValue)
+                    Response.ContentLength = size.Value;
+
+                Response.ContentType = contentType;
+
+                // Direct streaming in the response body
+                await _minioService.StreamObjectAsync(media.FileName, Response.Body, cancellationToken);
+
+                return new EmptyResult();
+            }
+            catch (Exception ex)
+            {
+                // 500 → storage or streaming failure
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error while streaming media file.");
+            }
+        }
+
+        // PUT: api/Media/{id}
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateMediaItemRequest request)
         {
@@ -91,6 +131,7 @@ namespace MusicLibrary.Api.Controllers
             return Ok(item);
         }
 
+        // DELETE: api/Media/{id}
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
