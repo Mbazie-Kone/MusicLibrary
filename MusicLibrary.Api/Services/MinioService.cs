@@ -65,5 +65,36 @@ namespace MusicLibrary.Api.Services
                     .WithObject(fileName)
             );
         }
+
+        public async Task StreamObjectAsync(
+            string objectName,
+            Stream destination,
+            CancellationToken cancellationToken)
+        {
+            await _client.GetObjectAsync(
+                new GetObjectArgs()
+                    .WithBucket(_bucketName)
+                    .WithObject(objectName)
+                    .WithCallbackStream(async stream =>
+                    {
+                        await stream.CopyToAsync(destination, 81920, cancellationToken);
+                    }),
+                cancellationToken
+            );
+        }
+
+        public async Task<(string ContentType, long? Size)> GetObjectInfoAsync(string objectName)
+        {
+            var stat = await _client.StatObjectAsync(
+                new StatObjectArgs()
+                    .WithBucket(_bucketName)
+                    .WithObject(objectName)
+            );
+
+            return (
+                stat.ContentType ?? "application/octet-stream",
+                stat.Size
+            );
+        }
     }
 }
