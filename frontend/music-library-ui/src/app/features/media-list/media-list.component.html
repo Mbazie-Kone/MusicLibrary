@@ -1,0 +1,28 @@
+<section class="layout">
+    <aside class="list">
+        <h2>Media Library</h2>
+
+        <ul>
+            <li *ngFor="let item of media" (click)="select(item)" [class.active]="item === selected">
+                <strong>{{ item.status }}</strong>
+                <small>
+                    {{ item.fileType }} . {{ item.fileSize | number }} bytes <span *ngIf="item.status">. {{ item.status }}</span>
+                </small>
+            </li>
+        </ul>
+    </aside>
+
+    <main class="player" *ngIf="selected">
+        <h3>{{ selected.title }}</h3>
+
+        <!-- Audio -->
+         <audio *ngIf="!isVideo(selected)" controls [src]="streamSrc(selected)"></audio>
+
+        <!-- Video -->
+         <video *ngIf="isVideo(selected)" controls width="640" [src]="streamSrc(selected)"></video>
+    </main>
+
+    <main class="player empty" *ngIf="!selected">
+        <p>Select a media item to play.</p>
+    </main>
+</section>
