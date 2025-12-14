@@ -1,0 +1,23 @@
+.upload {
+    max-width: 400px;
+}
+
+button {
+    margin-top: 1rem;
+}
+
+.progress {
+    width: 100%;
+    height: 10px;
+    background: #eee;
+    margin-top: 1rem;
+}
+
+.bar {
+    height: 100%;
+    background: #3f51b5;
+}
+
+.message {
+    margin-top: 0.5rem;
+}
