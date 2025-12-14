@@ -14,18 +14,20 @@ services:
     networks:
       - musicnetwork    
     
-  musiclibrary-api:
+  api:
     build:
       context: .
       dockerfile: MusicLibrary.Api/Dockerfile
     container_name: musiclibrary-api
     ports:
       - "5000:5000"
+      - "5001:5001"
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       ConnectionStrings__DefaultConnection: "Server=db;Database=MusicLibraryDb;User Id=sa;Password=12345678aA!;TrustServerCertificate=True;"
     depends_on:
       - db
+      - minio
     networks:
       - musicnetwork
   
@@ -53,6 +55,18 @@ services:
       - dbdata:/var/opt/mssql
     networks:
       - musicnetwork
+      
+  frontend:
+    build:
+      context: ./music-library-ui
+      dockerfile: Dockerfile
+    container_name: musiclibrary-frontend
+    ports:
+      - "4200:80"
+    depends_on:
+      - api
+    networks:
+      - musicnetwork
 
 volumes:
   dbdata:
@@ -60,3 +74,4 @@ volumes:
   
 networks:
   musicnetwork:
+    driver: bridge
