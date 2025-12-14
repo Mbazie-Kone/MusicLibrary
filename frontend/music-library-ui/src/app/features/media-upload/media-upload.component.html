@@ -1,0 +1,17 @@
+<section class="upload">
+    <h2>Upload Media</h2>
+
+    <input type="file" (change)="onFileSelected($event)" />
+
+    <button 
+        (click)="upload()" 
+        [disabled]="!selectedFile || uploading">
+        Upload
+    </button>
+
+    <div class="progress" *ngIf="uploading">
+        <div class="bar" [style.width.%]="progress"></div>
+    </div>
+
+    <p class="message">{{ message }}</p>
+</section>
