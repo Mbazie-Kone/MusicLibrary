@@ -6,86 +6,98 @@ using MusicLibrary.Infrastructure.DbContexts;
 
 namespace MediaProcessor { 
 
-public class Worker : BackgroundService
-{
-    private readonly ILogger<Worker> _logger;
-    private readonly IServiceProvider _serviceProvider;
-    private readonly MinioClient _minio;
-
-    public Worker(ILogger<Worker> logger, IServiceProvider serviceProvider, IConfiguration config)
+    public class Worker : BackgroundService
     {
-        _logger = logger;
-        _serviceProvider = serviceProvider;
+        private readonly ILogger<Worker> _logger;
+        private readonly IServiceProvider _serviceProvider;
+        private readonly MinioClient _minio;
+        private readonly string _bucketName;
 
-        _minio = new MinioClient()
-            .WithEndpoint(config["Minio:Endpoint"])
-            .WithCredentials(config["Minio:Accesskey"], config["Minio:SecretKey"])
-            .WithSSL(false)
-            .Build();
-    }
-    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
-    {
-        _logger.LogInformation("MediaProcessor Worker started.");
-
-        while (!stoppingToken.IsCancellationRequested)
+        public Worker(ILogger<Worker> logger, IServiceProvider serviceProvider, IConfiguration config)
         {
-            try
+            _logger = logger;
+            _serviceProvider = serviceProvider;
+
+            _bucketName = config["Minio:BucketName"] ?? "media";
+
+            _minio = new MinioClient()
+                .WithEndpoint(config["Minio:Endpoint"])
+                .WithCredentials(config["Minio:Accesskey"], config["Minio:SecretKey"])
+                .WithSSL(false)
+                .Build();
+        }
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        {
+            _logger.LogInformation("MediaProcessor Worker started.");
+
+            while (!stoppingToken.IsCancellationRequested)
             {
-                using var scope = _serviceProvider.CreateScope();
-                var db = scope.ServiceProvider.GetRequiredService<MusicLibraryDbContext>();
-
-                var item = await db.MediaItems
-                    .Where(m => m.Status == MediaStatus.Pending)
-                    .FirstOrDefaultAsync(stoppingToken);
-
-                if (item != null)
+                try
                 {
-                    await Task.Delay(3000, stoppingToken); // Simulate processing time
-                    continue;
+                    using var scope = _serviceProvider.CreateScope();
+                    var db = scope.ServiceProvider.GetRequiredService<MusicLibraryDbContext>();
+
+                    var item = await db.MediaItems
+                        .Where(m => m.Status == MediaStatus.Pending)
+                        .OrderBy(m => m.UploadedAt)
+                        .FirstOrDefaultAsync(stoppingToken);
+
+                    if (item == null)
+                    {
+                        await Task.Delay(TimeSpan.FromSeconds(5), stoppingToken);
+                        continue;
+                    }
+
+                    _logger.LogInformation("Processing media {Id} ({File})", item.Id, item.FileName);
+
+                    // Set Processing
+                    item.Status = MediaStatus.Processed;
+                    await db.SaveChangesAsync(stoppingToken);
+
+                    // Download file from Minio
+                    var tempPath = Path.GetTempFileName();
+                    await DownloadFromMinio(item.FileName, tempPath, stoppingToken);
+
+                    // Extract metadata
+                    ExtractMetadata(item, tempPath);
+
+                    item.Status = MediaStatus.Processed;
+                    await db.SaveChangesAsync(stoppingToken);
+
+                    File.Delete(tempPath);
+
+                    _logger.LogInformation("Processed media {Id}", item.Id);
                 }
-
-                _logger.LogInformation($"Processing media: {item.Id} {item.FileName}");
-
-                item.Status = MediaStatus.Processed;
-                await db.SaveChangesAsync();
-
-                var tempPath = Path.GetTempFileName();
-                await DownloadFromMinio(item.FileName, tempPath);
-
-                ExtractMetadata(item, tempPath);
-
-                item.Status = MediaStatus.Processed;
-                await db.SaveChangesAsync();
-
-                File.Delete(tempPath);
-
-                _logger.LogInformation($"Processed media: {item.Id}");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Error processing media: {ex.Message}");
-
+                catch (OperationCanceledException)
+                {
+                    // graceful shutdown
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "MediaProcessor iteration failed");
+                    await Task.Delay(TimeSpan.FromSeconds(10), stoppingToken);
+                }  
             }
         }
-    }
 
-    private async Task DownloadFromMinio(string objectName, string filePath)
-    {
-    await _minio.GetObjectAsync(new GetObjectArgs()
-        .WithBucket("media")
-        .WithObject(objectName)
-        .WithFile(filePath));
-    }
+        private async Task DownloadFromMinio(string objectName, string filePath, CancellationToken ct)
+        {
+            await _minio.GetObjectAsync(new GetObjectArgs()
+                .WithBucket(_bucketName)
+                .WithObject(objectName)
+                .WithFile(filePath),
+                ct);
+        }
 
-    private void ExtractMetadata(MediaItem item, string filePath)
-    {
-        var tagFile = TagLib.File.Create(filePath);
+        private void ExtractMetadata(MediaItem item, string filePath)
+        {
+            using var tagFile = TagLib.File.Create(filePath);
 
-        // Simulate metadata extraction
-        item.Duration = tagFile.Properties.Duration.ToString();
-        item.Bitrate = tagFile.Properties.AudioBitrate.ToString();
-        item.Artist = tagFile.Tag.FirstPerformer ?? "Unknown";
-        item.Album = tagFile.Tag.Album ?? "Unknown";
+            // Simulate metadata extraction
+            item.Duration = tagFile.Properties.Duration.ToString();
+            item.Bitrate = tagFile.Properties.AudioBitrate.ToString();
+            item.Artist = tagFile.Tag.FirstPerformer ?? "Unknown";
+            item.Album = tagFile.Tag.Album ?? "Unknown";
+        }
     }
-}
 }

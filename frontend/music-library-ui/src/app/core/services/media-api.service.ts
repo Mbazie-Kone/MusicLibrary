@@ -26,7 +26,7 @@ export class MediaApiService {
 
         return this.http.request(req);
     }
-
+        
     getAll(): Observable<MediaItem[]> {
         return this.http.get<MediaItem[]>(`${this.baseUrl}/media`);
     }
