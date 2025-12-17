@@ -40,7 +40,6 @@ if (app.Environment.IsDevelopment())
 }
 
 // app.UseHttpsRedirection(); // Disabled for MinIO testing without SSL
-// Commit
 
 app.UseAuthorization();
 

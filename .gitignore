@@ -11,3 +11,10 @@ obj/
 *.cache
 *.log
 
+# Node
+node_modules/
+frontend/**/node_modules/
+
+# Angular build
+dist/
+.angular/
