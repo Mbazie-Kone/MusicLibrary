@@ -4,7 +4,6 @@ using MusicLibrary.Api.Services;
 using MusicLibrary.Domain.Entities;
 using MusicLibrary.Domain.Enums;
 using MusicLibrary.Infrastructure.Repositories;
-using MusicLibrary.Api.Dtos;
 
 namespace MusicLibrary.Api.Controllers
 {
