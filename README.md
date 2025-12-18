@@ -139,6 +139,18 @@ dotnet run
   
 ---
 
+## Git workflow
+
+- `main` is protected and represents production-ready code
+- `develop` is the integration branch
+- Feature branches must be created from `develop`
+- Merges into `develop` should use Rebase or Squash
+- Merges into `main` should use Squash
+- `node_modules` must never be committed
+- Conflicts must be resolved locally, not via GitHub UI
+
+---
+
 ## 🤝 Contributing
 
 We follow GitFlow:
