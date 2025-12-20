@@ -147,13 +147,7 @@ dotnet run
 
 ## 🤝 Contributing
 
-We follow GitFlow:
-
-- `main` → production
-
-- `develop` → active development
-
-- `feature/*` → new features
+This project follows GitFlow.
 
 Pull requests are welcome and should target the `develop` branch.
 
