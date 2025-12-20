@@ -10,80 +10,100 @@
 ---
 
 ## 📖 Project Overview
-The **Music Library / Media Manager** is a modern web application designed to help users **organize, manage, and explore their music collection** efficiently.
 
-The project currently includes a fully structured **.NET 8 backend** following a **clean and scalable architecture** (Domain, Application, Infrastructure, Api), and a Dockerized SQL Server environment for persistent storage.  
-The Angular frontend is **planned but not yet started**.
+The **Music Library / Media Manager** is a full-stack application designed to manage, store, and organize music and media files together with their metadata.
 
-The goal is to evolve into a complete media platform for uploading, cataloging, storing, and managing audio files.
+The project currently consists of:
+- a **.NET 8 backend** built using **Clean Architecture**
+- a **Dockerized SQL Server** database
+- an **Angular frontend** integrated into the solution
+- a **background worker service** for media-related processing
+- **object storage support via MinIO**
+
+The system exposes RESTful APIs to upload, list, and manage media files while persisting metadata in a relational database and storing files in object storage.
 
 ---
 
 ## ✨ Features
-- **🎶 Music Library Management**: Upload, store, and organize music files with detailed metadata (title, artist, album, genre, release date, etc.).
-- **🔍 Search and Filtering**: Quickly find songs, albums, or artists using advanced search and filters.
-- **📂 Playlists & Favorites**: Create, edit, and manage playlists. Mark favorite tracks for easy access.
-- **▶️ Audio Playback**: Stream music directly in the app via an integrated audio player.
-- **🔐 Authentication**: Secure access with user registration and login.
-- **🖥️ RESTful API Backend**: Built with .NET 8 Web API for reliable data handling.
-- **🌐 Modern Frontend**: Angular-based responsive interface.
-- **💾 Database Integration**: Microsoft SQL Server for secure storage.
-- **🐳 Containerized**: Docker-ready for easy deployment.
+
+### ✅ Implemented
+- Clean Architecture:
+  - Domain
+  - Application
+  - Infrastructure
+  - API
+- .NET 8 Web API
+- SQL Server running in Docker
+- Entity Framework Core with migrations
+- Media upload workflow
+- Physical file storage
+- Metadata persistence using repositories
+- Media listing endpoint
+- MinIO integration for object storage
+- Background worker service (**MediaProcessor**)
+- Angular frontend integration
+- Docker Compose orchestration
+
+### 🏗️ In Progress
+- Media streaming endpoint
+- Improved validation and error handling
+- Centralized logging strategy
+
+### ⏳ Planned
+- Authentication and authorization (JWT)
+- User-based media ownership
+- Playlists management
+- Favorites and tagging
+- Media search and filtering
+- API versioning
+- Health checks & metrics
+- CI/CD pipeline with GitHub Actions
 
 ---
 
 ## 🎯 Project Goals
-1. Centralize music storage and management.  
-2. Provide an efficient and enjoyable way to interact with a music collection.  
-3. Support future expansion, such as integration with streaming services or AI recommendations.  
-4. Ensure security, performance, and reliability through modern software practices.
+
+1. Provide a scalable and maintainable media management backend.
+2. Ensure clear separation of responsibilities using Clean Architecture.
+3. Support asynchronous and background processing for media-related tasks.
+4. Enable future expansion with authentication, playlists, and advanced media features.
+5. Maintain a professional development workflow with Docker and GitFlow.
 
 ---
 
 ## 🛠️ Technology Stack
+
 | Layer | Technology |
-|-------|------------|
+|------|------------|
 | Backend | .NET 8 Web API |
-| Architecture | Clean Architecture (Domain, Application, Infrastructure, Api) |
-| Frontend | Angular (latest) |
-| Database | Microsoft SQL Server |
+| Architecture | Clean Architecture |
+| Frontend | Angular |
+| Database | Microsoft SQL Server (Docker) |
 | ORM | Entity Framework Core |
-| Storage | Local filesystem → MinIO (planned) |
+| Object Storage | MinIO |
+| Background Worker | .NET Worker Service |
+| DevOps | Docker, Docker Compose |
 | Version Control | Git & GitHub |
-| Deployment | Docker |
 
 ---
 
 ## 🖼️ Screenshots
 
-*(Screenshots will be added once the frontend is developed)*
+Screenshots will be added as the frontend evolves.
 
 ---
 
-## 📡 Current Endpoints (Implemented / In Progress)
+## 📡 API Endpoints
 
 ### ✔️ Implemented
-`GET /api/media/ping`
 
-Used to verify that the API is running correctly.
+#### <kbd>POST /api/media/upload</kbd>
+- Uploads a media file
+- Stores the file in MinIO
+- Persists metadata in the database
 
-### 🏗️ In Progress
-
-`POST /api/media/upload`
-
-- Saves the uploaded file physically.
-
-- Saves metadata in the database.
-
-- Uses `MediaItem` entity & repository.
-
-### ⏳ Planned
-
-- `GET /api/media` – list all uploaded items
-
-- `DELETE /api/media/{id}` – remove media
-
-- `GET /api/media/{id}` – fetch details
+#### <kbd>GET /api/media</kbd>
+Returns the list of uploaded media items.
 
 ---
 
@@ -94,7 +114,7 @@ Used to verify that the API is running correctly.
 git clone https://github.com/Mbazie-Kone/MusicLibrary.git
 
 ```
-#### 2. Start SQL Server via Docker
+#### 2. Start application via Docker
 ```
 docker compose up -d
 
@@ -113,30 +133,16 @@ dotnet run
 
 ---
 
-## API available at:
+## Git workflow
 
-- HTTP → http://localhost:5000
+- `main` is protected and represents production-ready code
+- `develop` is the integration branch
+- Feature branches must be created from `develop`
+- Merges into `develop` should use Rebase or Squash
+- Merges into `main` should use Rebase and Merge
+- `node_modules` must never be committed
+- Conflicts must be resolved locally, not via GitHub UI
 
-- HTTPS → https://localhost:7000
-
----
-
-## 🚀 Future Improvements
-
-- Complete media upload workflow
-
-- Implement media listing
-
-- Add MinIO storage support
-
-- Add Angular frontend
-
-- Introduce authentication (JWT)
-
-- Add a background worker (MediaProcessor Service)
-
-- Improve logging and validation
-  
 ---
 
 ## Git workflow
@@ -153,15 +159,9 @@ dotnet run
 
 ## 🤝 Contributing
 
-We follow GitFlow:
+This project follows GitFlow.
 
-- `main` → production
-
-- `develop` → active development
-
-- `feature/*` → new features
-
-Pull requests are welcome.
+Pull requests are welcome and should target the `develop` branch.
 
 ---
 
