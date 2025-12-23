@@ -45,8 +45,8 @@ jobs:
       - name: Build & push Frontend image
         uses: docker/build-push-action@v6
         with:
-          context: ./music-library-ui
-          file: ./music-library-ui/Dockerfile
+          context: ./frontend/music-library-ui
+          file: Dockerfile
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/musiclibrary-frontend:latest
