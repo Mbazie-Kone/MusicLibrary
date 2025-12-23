@@ -4,25 +4,25 @@ on:
   push:
     branches:
       - main
-      
+
 jobs:
   publish:
     name: Build & Push to Docker Hub
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
-        uses: actions/checkout#v4
-      
+        uses: actions/checkout@v4
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-        
+
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-          
+
       # Tags:
       # - latest
       # - sha-<short>
@@ -31,7 +31,7 @@ jobs:
         run: |
           SHORT_SHA="${GITHUB_SHA::7}"
           echo "short_sha=$SHORT_SHA" >> $GITHUB_OUTPUT
-          
+
       - name: Build & push API image
         uses: docker/build-push-action@v6
         with:
@@ -40,8 +40,8 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/musiclibrary-api:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/musiclibrary-api::sha-${{ steps.tags.outputs.short_sha }}
-            
+            ${{ secrets.DOCKERHUB_USERNAME }}/musiclibrary-api:sha-${{ steps.tags.outputs.short_sha }}
+
       - name: Build & push Frontend image
         uses: docker/build-push-action@v6
         with:
@@ -50,8 +50,8 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/musiclibrary-frontend:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/musiclibrary-frontend::sha-${{ steps.tags.outputs.short_sha }}
-            
+            ${{ secrets.DOCKERHUB_USERNAME }}/musiclibrary-frontend:sha-${{ steps.tags.outputs.short_sha }}
+
       - name: Build & push MediaProcessor image
         uses: docker/build-push-action@v6
         with:
@@ -60,4 +60,4 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/musiclibrary-mediaprocessor:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/musiclibrary-mediaprocessor::sha-${{ steps.tags.outputs.short_sha }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/musiclibrary-mediaprocessor:sha-${{ steps.tags.outputs.short_sha }}
