@@ -46,7 +46,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: ./frontend/music-library-ui
-          file: Dockerfile
+          file: frontend/music-library-ui/Dockerfile
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/musiclibrary-frontend:latest
