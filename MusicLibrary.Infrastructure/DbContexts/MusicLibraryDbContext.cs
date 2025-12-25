@@ -5,8 +5,7 @@ namespace MusicLibrary.Infrastructure.DbContexts
 {
     public class MusicLibraryDbContext : DbContext
     {
-        public MusicLibraryDbContext(DbContextOptions<MusicLibraryDbContext> options)
-            : base(options)
+        public MusicLibraryDbContext(DbContextOptions<MusicLibraryDbContext> options) : base(options)
         {
         }
 
@@ -35,5 +34,10 @@ namespace MusicLibrary.Infrastructure.DbContexts
                     .HasDefaultValueSql("GETDATE()"); // Default value
             });
         }
+
+        public DbSet<User> Users => Set<User>();
+        public DbSet<EmailConfirmationToken> EmailConfirmationTokens => Set<EmailConfirmationToken>();
+
+
     }
 }

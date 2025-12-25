@@ -3,6 +3,10 @@ using Microsoft.EntityFrameworkCore;
 using MusicLibrary.Infrastructure.Repositories;
 using MusicLibrary.Api.Services;
 using Microsoft.AspNetCore.Http.Features;
+using MusicLibrary.Application.Auth.Interfaces;
+using MusicLibrary.Infrastructure.Tokens;
+using MusicLibrary.Infrastructure.Email;
+using MusicLibrary.Infrastructure.Security;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +33,12 @@ builder.Services.Configure<FormOptions>(options =>
 
 // Minio Service Registration
 builder.Services.AddSingleton<IMinioService, MinioService>();
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IEmailConfirmationTokenRepository, EmailConfirmationTokenRepository>();
+builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+builder.Services.AddScoped<IEmailSender, FakeEmailSender>();
+builder.Services.AddSingleton<IConfirmationTokenGenerator, ConfirmationTokenGenerator>();
 
 var app = builder.Build();
 
