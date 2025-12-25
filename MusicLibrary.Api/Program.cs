@@ -7,6 +7,7 @@ using MusicLibrary.Application.Auth.Interfaces;
 using MusicLibrary.Infrastructure.Tokens;
 using MusicLibrary.Infrastructure.Email;
 using MusicLibrary.Infrastructure.Security;
+using MusicLibrary.Application.Auth.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,6 +40,8 @@ builder.Services.AddScoped<IEmailConfirmationTokenRepository, EmailConfirmationT
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<IEmailSender, FakeEmailSender>();
 builder.Services.AddSingleton<IConfirmationTokenGenerator, ConfirmationTokenGenerator>();
+
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 var app = builder.Build();
 
