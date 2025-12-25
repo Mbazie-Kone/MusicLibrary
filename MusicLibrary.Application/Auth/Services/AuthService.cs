@@ -11,19 +11,21 @@ namespace MusicLibrary.Application.Auth.Services
         private readonly IPasswordHasher _passwordHasher;
         private readonly IConfirmationTokenGenerator _tokenGenerator;
         private readonly IEmailSender _emailSender;
+        private readonly IJwtTokenGenerator _jwtTokenGenerator;
 
         public AuthService(
             IUserRepository users,
             IEmailConfirmationTokenRepository tokens,
             IPasswordHasher passwordHasher,
             IConfirmationTokenGenerator tokenGenerator,
-            IEmailSender emailSender)
+            IEmailSender emailSender, IJwtTokenGenerator jwtTokenGenerator)
         {
             _users = users;
             _tokens = tokens;
             _passwordHasher = passwordHasher;
             _tokenGenerator = tokenGenerator;
             _emailSender = emailSender;
+            _jwtTokenGenerator = jwtTokenGenerator;
         }
 
         public async Task RegisterAsync(RegisterUserCommand command, CancellationToken ct = default)
@@ -100,20 +102,18 @@ namespace MusicLibrary.Application.Auth.Services
             await _tokens.SaveChangeAsync(ct);
         }
 
-        public async Task LoginAsync(LoginCommand command, CancellationToken ct = default)
+        public async Task<string> LoginAsync(LoginCommand command, CancellationToken ct = default)
         {
             var user = await _users.GetByEmailAsync(command.Email, ct);
 
-            if (user is null)
+            if (user is null || !user.EmailConfirmed)
                 throw new InvalidOperationException("Invalid email or password.");
 
-            if (!user.EmailConfirmed)
-                throw new InvalidOperationException("Email not confirmed.");
-
-            var passwordValid = _passwordHasher.Verify(command.Password, user.PasswordHash);
-
-            if (!passwordValid)
+            if (!_passwordHasher.Verify(command.Password, user.PasswordHash))
                 throw new InvalidOperationException("Invalid email or password.");
+
+            return _jwtTokenGenerator.GenerateToken(user);
+
         }
     }
 }

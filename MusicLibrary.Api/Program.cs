@@ -8,6 +8,9 @@ using MusicLibrary.Infrastructure.Tokens;
 using MusicLibrary.Infrastructure.Email;
 using MusicLibrary.Infrastructure.Security;
 using MusicLibrary.Application.Auth.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,6 +46,22 @@ builder.Services.AddSingleton<IConfirmationTokenGenerator, ConfirmationTokenGene
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 
+// JWT Token
+builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Secret"]!))
+    };
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -53,6 +72,8 @@ if (app.Environment.IsDevelopment())
 }
 
 // app.UseHttpsRedirection(); // Disabled for MinIO testing without SSL
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

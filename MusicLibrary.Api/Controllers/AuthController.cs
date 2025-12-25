@@ -38,9 +38,9 @@ namespace MusicLibrary.Api.Controllers
             try
             {
                 var command = new LoginCommand(dto.Email, dto.Password);
-                await _authService.LoginAsync(command, ct);
+                var token = await _authService.LoginAsync(command, ct);
 
-                return Ok("Login successful.");
+                return Ok(new LoginResponseDto { Token = token });
             }
             catch (InvalidOperationException ex)
             {
