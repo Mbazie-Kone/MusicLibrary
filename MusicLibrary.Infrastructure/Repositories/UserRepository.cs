@@ -21,6 +21,12 @@ namespace MusicLibrary.Infrastructure.Repositories
         public Task<User?> GetByEmailAsync(string email, CancellationToken ct = default) => _db.Users.FirstOrDefaultAsync(u => u.Email == email, ct);
 
         // Standard method implementation
+        public Task<User?> GetByIdAsync(Guid id, CancellationToken ct = default)
+        {
+            return _db.Users.FirstOrDefaultAsync(u => u.Id == id, ct);
+        }
+
+        // Standard method implementation
         public Task SaveChangeAsync(CancellationToken ct = default)
         {
             return _db.SaveChangesAsync(ct);

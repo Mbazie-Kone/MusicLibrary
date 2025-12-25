@@ -30,5 +30,21 @@ namespace MusicLibrary.Api.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("confirm-email")]
+        public async Task<IActionResult> ConfirmEmail([FromQuery] string token,  CancellationToken ct)
+        {
+            try
+            {
+                var command = new ConfirmEmailCommand(token);
+                await _authService.ConfirmEmailAsync(command, ct);
+
+                return Ok("Email confirmed successfully.");
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

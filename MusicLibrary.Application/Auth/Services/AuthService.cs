@@ -74,5 +74,30 @@ namespace MusicLibrary.Application.Auth.Services
              );
 
         }
+
+        public async Task ConfirmEmailAsync(ConfirmEmailCommand command, CancellationToken ct = default)
+        {
+            var token = await _tokens.GetByTokenAsync(command.Token, ct);
+
+            if (token is null)
+                throw new InvalidOperationException("Invalid confirmation token.");
+
+            if (token.Used)
+                throw new InvalidOperationException("This confirmation token has already been used.");
+
+            if (token.ExpiresAt < DateTime.UtcNow)
+                throw new InvalidOperationException("This confirmation token has expired.");
+
+            var user = await _users.GetByIdAsync(token.UserId, ct);
+
+            if (user is null)
+                throw new InvalidOperationException("User associated with this token does not exist.");
+
+            user.EmailConfirmed = true;
+            token.Used = true;
+
+            await _users.SaveChangeAsync(ct);
+            await _tokens.SaveChangeAsync(ct);
+        }
     }
 }
