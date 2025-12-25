@@ -10,4 +10,8 @@
     <ProjectReference Include="..\MusicLibrary.Domain\MusicLibrary.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Auth\Models\" />
+  </ItemGroup>
+
 </Project>
