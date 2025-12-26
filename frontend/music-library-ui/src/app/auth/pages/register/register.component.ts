@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, Validators, ReactiveFormsModule, FormGroup } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   standalone: true,
@@ -18,9 +18,7 @@ export class RegisterComponent {
 
   form: FormGroup;
 
-  private apiUrl = 'http://localhost:5000/api/auth/register';
-
-  constructor(private fb: FormBuilder, private http: HttpClient)
+  constructor(private fb: FormBuilder, private authService: AuthService)
   {
       this.form = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -39,17 +37,20 @@ export class RegisterComponent {
 
     this.loading = true;
 
-    this.http.post(this.apiUrl, this.form.value, { responseType: 'text' }
-    ).subscribe({
-      next: msg => {
-        this.successMessage = msg;
-        this.form.reset();
-        this.loading = false;
-      },
-      error: err => {
-        this.errorMessage = err.error || 'Registration failed.';
-        this.loading = false;
+    const { email, password } = this.form.value;
+
+    this.authService.register(email!, password!)
+      .subscribe({
+        next: msg => {
+          this.successMessage = msg;
+          this.form.reset();
+          this.loading = false;
+        },
+        error: err => {
+          this.errorMessage = err.error || 'Registration failed.';
+          this.loading = false;
+        }
       }
-    });
+    );
   }
 }
