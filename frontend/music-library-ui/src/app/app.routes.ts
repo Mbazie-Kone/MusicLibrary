@@ -3,11 +3,12 @@ import { MediaUploadComponent } from './features/media-upload/media-upload.compo
 import { MediaListComponent } from './features/media-list/media-list.component';
 import { RegisterComponent } from './auth/pages/register/register.component';
 import { LoginComponent } from './auth/pages/login/login.component';
+import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
     { path: 'login', component: LoginComponent},
     { path: 'register', component: RegisterComponent },
-    { path: '', redirectTo: 'media/upload', pathMatch: 'full' },
-    { path: 'media', component: MediaListComponent },
-    { path: 'media/upload', component: MediaUploadComponent },
+    { path: 'media', component: MediaListComponent, canActivate: [authGuard] },
+    { path: 'media/upload', component: MediaUploadComponent, canActivate: [authGuard] },
+    { path: '', redirectTo: 'login', pathMatch: 'full' }
 ];
