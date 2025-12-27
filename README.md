@@ -112,23 +112,19 @@ Returns the list of uploaded media items.
 #### 1. Clone the repository
 ```
 git clone https://github.com/Mbazie-Kone/MusicLibrary.git
-
 ```
 #### 2. Start application via Docker
 ```
 docker compose up -d
-
 ```
 #### 3. Apply EF Core migrations
 ```
 dotnet ef database update -p MusicLibrary.Infrastructure -s MusicLibrary.Api
-
 ```
 #### 4. Run the API
 ```
 cd MusicLibrary.Api
 dotnet run
-
 ```
 
 ---
