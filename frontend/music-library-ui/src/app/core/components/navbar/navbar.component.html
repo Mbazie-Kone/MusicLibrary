@@ -4,6 +4,10 @@
         Home
     </a>
 
+    <a routerLink="/media/upload" style="margin-right: 10px;">
+        Upload
+    </a>
+
     <!-- User NOT authenticated -->
     <ng-container *ngIf="!authService.isAuthenticated()">
         <a routerLink="/login" style="margin-right: 10px;">
