@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   standalone: true,
@@ -17,7 +18,7 @@ export class LoginComponent {
 
   form: FormGroup;
 
-  constructor(private fb: FormBuilder, private authservice: AuthService){
+  constructor(private fb: FormBuilder, private authservice: AuthService, private router: Router){
     this.form = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]]
@@ -40,8 +41,13 @@ export class LoginComponent {
       .subscribe({
         next: () => {
           this.loading = false;
-          // redirect will be added later (guard/interceptor card)
-          alert('login successful');
+          
+          // Redirect UX
+          this.router.navigate(['/']);
+        },
+        error: err => {
+          this.errorMessage = err.error || 'Invalid credentials.';
+          this.loading = false;
         }
       });
   }
