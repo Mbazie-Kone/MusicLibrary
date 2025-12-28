@@ -1,28 +1,18 @@
-<nav style="padding: 10px; border-bottom: 1 px solid #ccc;">
-
-    <a routerLink="/media" style="margin-right: 10px;">
-        Home
-    </a>
-
-    <a routerLink="/media/upload" style="margin-right: 10px;">
-        Upload
-    </a>
-
-    <!-- User NOT authenticated -->
-    <ng-container *ngIf="!authService.isAuthenticated()">
-        <a routerLink="/login" style="margin-right: 10px;">
-            Login
-        </a>
-        <a routerLink="/register">
-            Register
-        </a>
-    </ng-container>
-
-    <!-- Authenticated user -->
-    <ng-container *ngIf="authService.isAuthenticated()">
-        <a routerLink="/logout">
-            Logout
-        </a>
-    </ng-container>
-
+<nav>
+    <div class="app-container navbar">
+        <a routerLink="/media">Home</a>
+    
+        <a routerLink="/media/upload">Upload</a>
+    
+        <!-- User NOT authenticated -->
+        <ng-container *ngIf="!authService.isAuthenticated()">
+            <a routerLink="/login">Login</a>
+            <a routerLink="/register">Register</a>
+        </ng-container>
+    
+        <!-- Authenticated user -->
+        <ng-container *ngIf="authService.isAuthenticated()">
+            <a routerLink="/logout">Logout</a>
+        </ng-container>
+    </div>
 </nav>

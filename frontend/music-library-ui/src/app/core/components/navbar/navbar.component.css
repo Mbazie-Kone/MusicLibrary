@@ -1,0 +1,9 @@
+nav {
+    border-bottom: 1px solid #ccc;
+    background: #fff;
+}
+
+div.navbar {
+    display: flex;
+    gap: 16px;
+}

@@ -1,1 +1,18 @@
-/* You can add global styles to this file, and also import other style files */
+/* Minimal global reset */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+/* Global layout container */
+.app-container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 24px;
+} 
