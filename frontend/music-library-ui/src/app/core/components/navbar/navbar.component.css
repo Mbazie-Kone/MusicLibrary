@@ -1,9 +1,41 @@
-nav {
-    border-bottom: 1px solid #ccc;
-    background: #fff;
+.navbar {
+    background-color: #ffff;
+    border-bottom: 1px solid #ddd;
 }
 
-div.navbar {
+.navbar-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 56px;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    text-decoration: none;
+    color: #333;
+}
+
+.navbar-links {
     display: flex;
     gap: 16px;
+}
+
+.navbar-links a {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: 500;
+}
+
+/* Responsive navbar */
+@media (max-width: 600px) {
+    .navbar-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .navbar-links {
+        gap: 12px;
+    }
 }

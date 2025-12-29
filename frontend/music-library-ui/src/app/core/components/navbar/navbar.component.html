@@ -1,18 +1,20 @@
-<nav>
-    <div class="app-container navbar">
-        <a routerLink="/media">Home</a>
+<nav class="navbar">
+    <div class="app-container navbar-content">
+        <a routerLink="/media" class="navbar-brand">MusicLibrary</a>
+
+        <div class="navbar-links">
+            <!-- User NOT authenticated -->
+            <ng-container *ngIf="!authService.isAuthenticated()">
+                <a routerLink="/login">Login</a>
+                <a routerLink="/register">Register</a>
+            </ng-container>
+        
+            <a routerLink="/media/upload">Upload</a>
     
-        <a routerLink="/media/upload">Upload</a>
-    
-        <!-- User NOT authenticated -->
-        <ng-container *ngIf="!authService.isAuthenticated()">
-            <a routerLink="/login">Login</a>
-            <a routerLink="/register">Register</a>
-        </ng-container>
-    
-        <!-- Authenticated user -->
-        <ng-container *ngIf="authService.isAuthenticated()">
-            <a routerLink="/logout">Logout</a>
-        </ng-container>
+            <!-- Authenticated user -->
+            <ng-container *ngIf="authService.isAuthenticated()">
+                <a routerLink="/logout">Logout</a>
+            </ng-container>
+        </div>
     </div>
 </nav>
