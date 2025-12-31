@@ -25,6 +25,11 @@
             {{ loading ? 'Registering...' : 'Register' }}
         </button>
 
+        <p class="auth-link">
+            Already have an account?
+            <a routerLink="/login">Login</a>
+        </p>
+
     </form>
     
     <p *ngIf="successMessage" class="form-success">
