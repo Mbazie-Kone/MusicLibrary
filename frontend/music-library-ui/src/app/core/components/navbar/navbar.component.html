@@ -3,12 +3,6 @@
         <a routerLink="/media" class="navbar-brand">MusicLibrary</a>
 
         <div class="navbar-links">
-            <!-- User NOT authenticated -->
-            <ng-container *ngIf="!authService.isAuthenticated()">
-                <a routerLink="/login">Login</a>
-                <a routerLink="/register">Register</a>
-            </ng-container>
-        
             <a routerLink="/media/upload">Upload</a>
     
             <!-- Authenticated user -->

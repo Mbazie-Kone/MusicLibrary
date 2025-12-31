@@ -38,10 +38,6 @@
     cursor: pointer;
 }
 
-.logout-btn:hover {
-    text-decoration: underline;
-}
-
 /* Responsive navbar */
 @media (max-width: 600px) {
     .navbar-content {
