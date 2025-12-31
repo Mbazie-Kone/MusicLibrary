@@ -13,7 +13,7 @@
     
             <!-- Authenticated user -->
             <ng-container *ngIf="authService.isAuthenticated()">
-                <a routerLink="/logout">Logout</a>
+                <button class="logout-btn" (click)="onLogout()">Logout</button>
             </ng-container>
         </div>
     </div>

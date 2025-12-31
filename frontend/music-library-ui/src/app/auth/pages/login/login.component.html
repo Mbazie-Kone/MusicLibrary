@@ -25,6 +25,11 @@
             {{ loading ? 'Logging in...' : 'Login' }}
         </button>
 
+        <p class="auth-link">
+            Not registered?
+            <a routerLink="/register">Create an account</a>
+        </p>
+
     </form>
 
     <p *ngIf="errorMessage" class="form-error">

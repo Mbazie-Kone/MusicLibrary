@@ -14,3 +14,11 @@ export const authGuard: CanActivateFn = () => {
   router.navigate(['/login']);
   return false;
 };
+
+export const guestGuard: CanActivateFn = () => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
+
+  // Redirect to media page if user is authenticated
+  return authService.isAuthenticated() ? router.createUrlTree(['/media']) : true;
+};
