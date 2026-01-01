@@ -190,7 +190,7 @@ Auth full-page layout
     flex: 1;
 }
 
-/* Auth hero split 
+Auth hero split 
 .auth-hero {
     flex: 1;
     background: linear-gradient(135deg, #1e3c72, #2a5298);
@@ -222,9 +222,9 @@ Auth full-page layout
     justify-content: center;
 }
 
-/* FORMS */
+FORMS
 
-/* Login & register 
+Login & register 
 .auth-form {
     background: #ffffff;
     padding: 24px;
@@ -304,9 +304,9 @@ Auth full-page layout
     text-align: center;
 }
 
-/* RESPONSIVE SECTION */
+RESPONSIVE SECTION
 
-/* Responsive auth full-page 
+Responsive auth full-page 
 @media (max-width: 768px) {
     .auth-page-content {
         flex-direction: column;
@@ -320,4 +320,4 @@ Auth full-page layout
         flex: 1;
         padding: 16px;
     }
-}
+}*/
