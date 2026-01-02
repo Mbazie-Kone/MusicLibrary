@@ -178,146 +178,128 @@ html, body {
     padding: 24px;
 }
 
-/* Auth full-page layout */
-.auth-page {
-    min-height: 100vh;
-    display: flex;
-    background-color: #f9f9f9;
-}
-
-.auth-page-content {
-    display: flex;
-    flex: 1;
-}
-
-/* Auth hero split */
-.auth-hero {
-    flex: 1;
-    background: linear-gradient(135deg, #1e3c72, #2a5298);
-    color: #ffffff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 40px;
-}
-
-.auth-hero-content {
-    max-width: 420px;
-}
-
-.auth-hero h1 {
-    margin-top: 0;
-    font-size: 32px;
-}
-
-.auth-hero p {
-    font-size: 16px;
-    opacity: 0.9;
-}
-
-.auth-form-wrapper {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* FORMS */
-
-/* Login & register */
+/* Auth layout */
 .auth-form {
-    background: #ffffff;
-    padding: 24px;
-    border-radius: 6px;
-    max-width: 400px;
-    margin: 40px auto;
-    box-shadow: 0 2px 6px rgba(0,0,0, 0.05);
+  width: 100%;
 }
 
-.auth-form h2 {
-    margin-top: 0;
-    margin-bottom: 24px;
-    text-align: center;
-}
-
-.auth-form button {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 4px;
-    background-color: #007bff;
-    color: #ffffff;
-    cursor: pointer;
-}
-
-.auth-form button:disabled {
-    background-color: #9ec5fe;
-    cursor: not-allowed;
-}
-
-.auth-link {
-    margin-top: 16px;
-    text-align: center;
-}
-
-.auth-link a {
-    color: #007bff;
-    text-decoration: none;
-    font-weight: 500;
-    cursor: pointer;
-}
-
-.auth-link a:hover {
-    text-decoration: underline;
+.auth-form form {
+  display: flex;
+  flex-direction: column;
 }
 
 .form-group {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
 }
 
 .form-group label {
-    font-weight: 600;
-    margin-bottom: 6px;
+  font-weight: 600;
+  font-size: 13px;
+  margin-bottom: 8px;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 12px;
+  color: #666;
+  font-size: 16px;
+  z-index: 1;
+}
+
+.input-icon-right {
+  position: absolute;
+  right: 12px;
+  color: #666;
+  font-size: 16px;
+  cursor: pointer;
+  z-index: 1;
+  transition: color 0.2s;
+}
+
+.input-icon-right:hover {
+  color: #333;
 }
 
 .form-group input {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+  width: 100%;
+  padding: 12px 12px 12px 40px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: border-color 0.2s;
 }
 
 .form-group input:focus {
-    outline: none;
-    border-color: #007bff;
+  outline: none;
+  border-color: #1976d2;
+}
+
+.form-group input::placeholder {
+  color: #999;
+}
+
+.auth-submit-btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 4px;
+  background-color: #e0e0e0;
+  color: #333;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-top: 8px;
+}
+
+.auth-submit-btn:hover:not(:disabled) {
+  background-color: #d0d0d0;
+}
+
+.auth-submit-btn:disabled {
+  background-color: #f5f5f5;
+  color: #999;
+  cursor: not-allowed;
+}
+
+.auth-link {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 13px;
+  color: #666;
+}
+
+.auth-link a {
+  color: #1976d2;
+  text-decoration: none;
+  font-weight: 500;
+  margin-left: 4px;
+}
+
+.auth-link a:hover {
+  text-decoration: underline;
 }
 
 .form-error {
-    color: #c62828;
-    margin-top: 6px;
+  color: #d32f2f;
+  font-size: 12px;
+  margin-top: 6px;
 }
 
 .form-success {
-    color: #2e7d32;
-    margin-top: 16px;
-    text-align: center;
-}
-
-/* RESPONSIVE SECTION */
-
-/* Responsive auth full-page */
-@media (max-width: 768px) {
-    .auth-page-content {
-        flex-direction: column;
-    }
-
-    .auth-hero {
-        display: none;
-    }
-
-    .auth-form-wrapper {
-        flex: 1;
-        padding: 16px;
-    }
+  color: #2e7d32;
+  font-size: 12px;
+  margin-top: 16px;
+  text-align: center;
 }

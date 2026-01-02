@@ -3,18 +3,38 @@
 
         <!-- HERO -->
          <section class="auth-hero">
+            <div class="auth-hero-background">
+                <div class="auth-hero-graphic"></div>
+                <div class="auth-hero-particles"></div>
+            </div>
             <div class="auth-hero-content">
                 <h1>MusicLibrary</h1>
                 <p>
-                    Manage, organize and access your music library anywhere, anytime.
+                    Manage, organize, and access your music library anywhere, anytime.
+                    Your music is always at hand, shared and synchronized across all your devices.
                 </p>
             </div>
          </section>
 
         <!-- FORM -->
          <section class="auth-form-wrapper">
-            <router-outlet></router-outlet>
+            <div class="auth-form-container">
+                <div class="auth-form-header">
+                    <h2 class="auth-form-title">MUSICLIBRARY</h2>
+                    <span class="auth-form-subtitle">MUSIC STORAGE</span>
+                    <span class="auth-form-badge">Community Edition</span>
+                </div>
+                <router-outlet></router-outlet>
+                <div class="auth-form-footer">
+                    <a href="#" class="auth-footer-link">Documentation</a>
+                    <span class="auth-footer-separator">|</span>
+                    <a href="#" class="auth-footer-link">GitHub</a>
+                    <span class="auth-footer-separator">|</span>
+                    <a href="#" class="auth-footer-link">Support</a>
+                    <span class="auth-footer-separator">|</span>
+                    <a href="#" class="auth-footer-link">Download</a>
+                </div>
+            </div>
          </section>
-         
     </div>
 </div>
