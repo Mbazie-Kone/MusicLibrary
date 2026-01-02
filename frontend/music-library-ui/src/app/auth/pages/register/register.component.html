@@ -1,12 +1,11 @@
 <div class="auth-form">
-    <h2>Register</h2>
-
     <form [formGroup]="form" (ngSubmit)="submit()">
-
         <div class="form-group">
             <label>Email</label>
-            <input type="email" formControlName="email" />
-            
+            <div class="input-wrapper">
+                <span class="input-icon icon-user"></span>
+                <input type="email" formControlName="email" placeholder="Enter your email" />
+            </div>
             <div class="form-error" *ngIf="form.get('email')?.invalid && form.get('email')?.touched">
                 Please enter a valid email.
             </div>
@@ -14,14 +13,17 @@
 
         <div class="form-group">
             <label>Password</label>
-            <input type="password" formControlName="password" />
-    
+            <div class="input-wrapper">
+                <span class="input-icon icon-lock"></span>
+                <input type="password" formControlName="password" placeholder="Enter your password" />
+                <span class="input-icon-right icon-eye" (click)="togglePasswordVisibility()"></span>
+            </div>
             <div class="form-error" *ngIf="form.get('password')?.invalid && form.get('password')?.touched">
                 Password is required.
             </div>
         </div>
 
-        <button type="submit" [disabled]="loading">
+        <button type="submit" [disabled]="loading" class="auth-submit-btn">
             {{ loading ? 'Registering...' : 'Register' }}
         </button>
 
@@ -29,7 +31,6 @@
             Already have an account?
             <a routerLink="/login">Login</a>
         </p>
-
     </form>
     
     <p *ngIf="successMessage" class="form-success">

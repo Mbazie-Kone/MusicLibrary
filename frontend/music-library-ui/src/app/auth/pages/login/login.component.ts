@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
+import { PasswordVisibilityService } from '../../../core/services/password-visibility.service';
 
 @Component({
   standalone: true,
@@ -19,7 +20,8 @@ export class LoginComponent {
 
   form: FormGroup;
 
-  constructor(private fb: FormBuilder, private authservice: AuthService, private router: Router){
+  constructor(private fb: FormBuilder, private authservice: AuthService, private router: Router,
+    private passwordVisibilityService: PasswordVisibilityService){
     this.form = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]]
@@ -27,11 +29,8 @@ export class LoginComponent {
   }
 
   togglePasswordVisibility(): void {
-    this.showPassword = !this.showPassword;
-    const passwordInput = document.querySelector('input[formControlName="password"]') as HTMLInputElement;
-    if (passwordInput) {
-      passwordInput.type = this.showPassword ? 'text' : 'password';
-    }
+    const passwordInput = this.passwordVisibilityService.getPasswordInput('password');
+    this.showPassword = this.passwordVisibilityService.togglePasswordVisibility(passwordInput, this.showPassword);
   }
 
   submit(): void {

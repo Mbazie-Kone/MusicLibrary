@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, Validators, ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router, RouterLink } from "@angular/router";
+import { PasswordVisibilityService } from '../../../core/services/password-visibility.service';
 
 @Component({
   standalone: true,
@@ -16,17 +17,24 @@ export class RegisterComponent {
   loading = false;
   successMessage?: string;
   errorMessage?: string;
+  showPassword = false;
 
   private readonly redirectDelayMs = 3000;
 
   form: FormGroup;
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router)
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router,
+    private passwordVisibilityService: PasswordVisibilityService)
   {
       this.form = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
+  }
+
+  togglePasswordVisibility(): void {
+    const passwordInput = this.passwordVisibilityService.getPasswordInput('password');
+    this.showPassword = this.passwordVisibilityService.togglePasswordVisibility(passwordInput, this.showPassword);
   }
 
   submit(): void {
