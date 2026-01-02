@@ -16,6 +16,7 @@ namespace MusicLibrary.Api.Controllers
             _authService = authService;
         }
 
+        // api/auth/register
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] Dtos.RegisterRequestDto dto, CancellationToken ct)
         {
@@ -32,6 +33,7 @@ namespace MusicLibrary.Api.Controllers
             }
         }
 
+        // api/auth/login
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequestDto dto, CancellationToken ct)
         {
@@ -48,6 +50,7 @@ namespace MusicLibrary.Api.Controllers
             }
         }
 
+        // api/auth/confirm-email
         [HttpGet("confirm-email")]
         public async Task<IActionResult> ConfirmEmail([FromQuery] string token,  CancellationToken ct)
         {

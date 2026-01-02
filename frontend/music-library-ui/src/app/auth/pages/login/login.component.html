@@ -1,31 +1,39 @@
-<h2>Login</h2>
+<div class="auth-form">
+    <form [formGroup]="form" (ngSubmit)="submit()">
+        <div class="form-group">
+            <label>Username</label>
+            <div class="input-wrapper">
+                <span class="input-icon icon-user"></span>
+                <input type="email" formControlName="email" placeholder="Enter your email" />
+            </div>
+            <div class="form-error" *ngIf="form.get('email')?.invalid && form.get('email')?.touched">
+                Please enter a valid email.
+            </div>
+        </div>
 
-<form [formGroup]="form" (ngSubmit)="submit()">
+        <div class="form-group">
+            <label>Password</label>
+            <div class="input-wrapper">
+                <span class="input-icon icon-lock"></span>
+                <input type="password" formControlName="password" placeholder="Enter your password" />
+                <span class="input-icon-right icon-eye" (click)="togglePasswordVisibility()"></span>
+            </div>
+            <div class="form-error" *ngIf="form.get('password')?.invalid && form.get('password')?.touched">
+                Password is required.
+            </div>
+        </div>
 
-    <label>
-        Email
-        <input type="email" formControlName="email" />
-    </label>
+        <button type="submit" [disabled]="loading" class="auth-submit-btn">
+            {{ loading ? 'Logging in...' : 'Login' }}
+        </button>
 
-    <div *ngIf="form.get('email')?.invalid && form.get('email')?.touched">
-        Please enter a valid email.
-    </div>
+        <p class="auth-link">
+            Not registered?
+            <a routerLink="/register">Create an account</a>
+        </p>
+    </form>
 
-    <label>
-        Password
-        <input type="password" formControlName="password" />
-    </label>
-
-    <div *ngIf="form.get('password')?.invalid && form.get('password')?.touched">
-        Password is required.
-    </div>
-
-    <button type="submit" [disabled]="loading">
-        {{ loading ? 'Logging in...' : 'Login' }}
-    </button>
-
-</form>
-
-<p *ngIf="errorMessage" style="color: red;">
-    {{ errorMessage }}
-</p>
+    <p *ngIf="errorMessage" class="form-error">
+        {{ errorMessage }}
+    </p>
+</div>
